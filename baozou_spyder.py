@@ -2,30 +2,50 @@ import urllib.request
 import bs4, os
 import requests
 import time
+import re
 
 # http://wanzao2.b0.upaiyun.com/1505864549963f322d56dae7738693c85e876c4b1b681.gif-picSmall
 #content = 'aaa"333.gif"bbb"444.gif"'
 
+def getHtml(url):  
+    page = urllib.urlopen(url)  
+    html =  page.read()  
+    return html  
+  
+def getJpg(html):  
+    reg = r'"largeTnImageUrl":"(.+?\.jpg)",'  
+    reg = r'"(.+?\.gif)"'  
+    imgre = re.compile(reg)  
+    imglist = re.findall(imgre, html)      
+
 def grabe_gif_pics(url):
     global path
-#    url = "http://baozoumanhua.com/catalogs/gif"   #url地址
     headers = {
          'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko)'
          ' Chrome/32.0.1700.76 Safari/537.36'
          }
     req = urllib.request.Request(url=url, headers=headers)
     content = urllib.request.urlopen(req).read()
-    url_list = get_url_list(content)
+    url_list = get_url_list(content.decode())
     print('url_list is ', len(url_list))
     store_file(url_list, path, headers)
     
-
 def get_url_list(content):
+    url_list = []
+    pattern1 = re.compile(r'"([^"]+\.gif)"')
+    pattern2 = re.compile(r'"([^"]+\.gif-picSmall)"')
+    find_list1 = re.findall(pattern1, content)
+    find_list2 = re.findall(pattern2, content)
+    url_list.extend(find_list1)
+    url_list.extend(find_list2)
+    return url_list
+
+def get_url_list_bakup(content):
     url_list = []
     curr_index = 0
     while True:
         curr_index1 = content.find(b'.gif\"', curr_index)
-        curr_index2 = content.find(b'.gif-picSmall\"', curr_index)
+        curr_index2 = content.find(b'.gif-picSmall\"', curr_index)       
         print('curr_index1', curr_index1, 'curr_index2', curr_index2)
         if curr_index1==-1 and curr_index2==-1:
             break
@@ -51,7 +71,7 @@ def store_file(url_list, path, headers):
         filename = path + os.sep + str(file_num) + ".gif"
         time.sleep(1)
         try:
-            req = urllib.request.Request(url = url.decode(), headers = headers)
+            req = urllib.request.Request(url = url, headers = headers)
             content = urllib.request.urlopen(req, timeout=20).read()     
         except Exception as e:
             print('error occured ', str(e))
@@ -64,6 +84,15 @@ def store_file(url_list, path, headers):
         else:
             file_num += 1
 
+            
+#pattern1 = re.compile(r'"(.+?\.gif)"')
+#pattern2 = re.compile(r'"(.+?\.gif-picSmall)"')
+#content = 'aaa"aabcceeff333.gif-picSmall"bbb"444.gif"ttteeevvv"333rti.8.gif"'
+#find_list1 = re.findall(pattern1, content)
+#find_list2 = re.findall(pattern2, content)
+#print('find_list1 is ', find_list1)
+#print('find_list2 is ', find_list2)
+
 
 path = os.getcwd()
 path = os.path.join(path,'暴走GIF')
@@ -73,10 +102,13 @@ if not os.path.exists(path):
 crawled_urls_set = set()
 file_num = 0
 
-for page in range(2):
-    print('page is ', page)
+for page in range(1, 20):
     url = 'http://baozoumanhua.com/catalogs/gif?page=' + str(page)
-    print('url is ', url)
+    print('#'*60)
+    print('page is', page, 'file_num is', file_num, 'url is', url)
+    print('#'*60)
     grabe_gif_pics(url)
+    
+print('ending... file_num is ', file_num)
 
 
