@@ -84,13 +84,6 @@ def store_file(url_list, path, headers):
             file_num += 1
 
             
-#pattern1 = re.compile(r'"(.+?\.gif)"')
-#pattern2 = re.compile(r'"(.+?\.gif-picSmall)"')
-#content = 'aaa"aabcceeff333.gif-picSmall"bbb"444.gif"ttteeevvv"333rti.8.gif"'
-#find_list1 = re.findall(pattern1, content)
-#find_list2 = re.findall(pattern2, content)
-#print('find_list1 is ', find_list1)
-#print('find_list2 is ', find_list2)
 
 
 path = os.getcwd()
