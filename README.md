@@ -1,2 +1,2 @@
 # misc
-# some interesting spider code i used.
+# some spider code i used for getting useful data from online.
