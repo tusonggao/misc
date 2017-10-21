@@ -4,8 +4,7 @@ import requests
 import time
 import re
 
-# http://wanzao2.b0.upaiyun.com/1505864549963f322d56dae7738693c85e876c4b1b681.gif-picSmall
-#content = 'aaa"333.gif"bbb"444.gif"'
+
 
 def getHtml(url):  
     page = urllib.urlopen(url)  
