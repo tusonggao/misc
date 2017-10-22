@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Canvas</title>
+</head>
+<body>
+	<canvas id="canvas" width="400" height="400"></canvas>
+	<script src="https://code.jquery.com/jquery-2.1.0.js"></script>
+	<script>
+		var canvas = document.getElementById("canvas");
+		var ctx = canvas.getContext("2d");
+		var position = 0;
+		var size = 0;
+		var moveFunc = function() {
+			ctx.clearRect(0, 0, 400, 400);
+			ctx.fillRect(position, 0, size, size);
+			size++;
+			if(size > 200) {
+			    size = 0;
+		    }
+		};
+		setInterval(moveFunc, 30);		
+	</script>
+</body>
+</html>
+
+
