@@ -81,9 +81,7 @@ def store_file(url_list, path, headers):
             print('Note: less than 10K, i is', i)
             os.remove(filename)
         else:
-            file_num += 1
-
-            
+            file_num += 1            
 
 
 path = os.getcwd()
@@ -102,5 +100,4 @@ for page in range(1, 20):
     grabe_gif_pics(url)
     
 print('ending... file_num is ', file_num)
-
 
