@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# running in python 2.3
+# running in python 2.7
 
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -48,7 +48,7 @@ def store_file(url_list, path, headers):
         filename = path + os.sep + str(file_num) + ".jpg"
         time.sleep(1)
         try:
-            content = requests.get(url, timeout=12).content
+            content = requests.get(url, headers=headers, timeout=45).content
         except Exception as e:
             print('error occured ', str(e))
         else:
@@ -59,21 +59,31 @@ def store_file(url_list, path, headers):
         
     with open('file_url_map.txt', 'w') as f:
         f.write(str(file_url_map))
+        
                 
 def get_pic_url_list(start_url):
     driver = webdriver.Firefox()
     driver.get(start_url)
+    WebDriverWait(driver, 30)
     
     count = 0
-    while count<=6:
-        try: 
+    while count<=5:
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);");  # 下拉到底部
+#        time.sleep(1)
+        try:
+            close_btn = driver.find_element_by_css_selector('Button.Modal-closeButton.Button--plain')
+            close_btn.click()
+        except Exception as e:
+            pass
+        time.sleep(1)
+        try:
             more_answer = driver.find_element_by_css_selector("Button.QuestionMainAction")
             more_answer.click()
-        except:
-            print('get an exception count is ', count)    
-        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);");
+        except Exception as e:
+            print('count is {0} get an exception {1}'.format(count, str(e)))      
         html_content = driver.page_source
-        pattern1 = re.compile(r'data-original="([^"]+\.jpg)"')  #查找所有图片
+#        pattern1 = re.compile(r'data-original="([^"]+\.jpg)"')  #查找所有图片
+        pattern1 = re.compile(r'data-original="([^"]+\.png)"')  #查找所有图片
         #pattern1 = re.compile(r'"([^"]+\.png)"')
         find_list = re.findall(pattern1, html_content)
         print('count is ', count, 'len of find_list is ', len(find_list))
@@ -83,7 +93,8 @@ def get_pic_url_list(start_url):
 
 
 if __name__=='__main__':
-    start_url = 'https://www.zhihu.com/question/50734809'
+#    start_url = 'https://www.zhihu.com/question/50734809' # 电脑内好照片
+    start_url = 'https://www.zhihu.com/question/22918070' # 减肥照片
     headers = {
          'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko)'
          ' Chrome/32.0.1700.76 Safari/537.36'
