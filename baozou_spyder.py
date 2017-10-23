@@ -4,8 +4,6 @@ import requests
 import time
 import re
 
-
-
 def getHtml(url):  
     page = urllib.urlopen(url)  
     html =  page.read()  
@@ -85,7 +83,7 @@ def store_file(url_list, path, headers):
 
 
 path = os.getcwd()
-path = os.path.join(path,'暴走GIF')
+path = os.path.join(path,'Baozou_GIF')
 if not os.path.exists(path):
   os.mkdir(path)                 #创建文件夹
 

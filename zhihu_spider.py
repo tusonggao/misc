@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
+
+# running in python 2.3
+
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup 
+import urllib
 import re
 import time
 import os
@@ -11,6 +15,7 @@ import sip
 import PyQt4
 import spynner
 from setuptools import setup
+import requests
 
 #browser = spynner.Browser()
 #browser.show()
@@ -20,26 +25,84 @@ from setuptools import setup
 #browser.wait(10)
 #browser.close()
 
-driver = webdriver.Firefox()
-driver.get("https://www.zhihu.com/question/50734809")
+def make_dir(path_dir):
+    cwd_path = os.getcwd()
+    path = os.path.join(cwd_path, path_dir)
+    if not os.path.exists(path):
+        os.mkdir(path)                 #创建文件夹
 
-count = 0
-while count<=50:
-    try: 
-        more_answer = driver.find_element_by_css_selector("Button.QuestionMainAction")
-        more_answer.click()
-    except:
-        print('get an exception count is ', count)    
-    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);");
-    html_content = driver.page_source
-    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);");
-    pattern1 = re.compile(r'"([^"]+\.jpg)"')  #查找所有图片
-    #pattern1 = re.compile(r'"([^"]+\.png)"')
-    find_list = re.findall(pattern1, html_content)
-    print('count is ', count, 'len of find_list is ', len(find_list))
-    count += 1
+def store_file(url_list, path, headers):
+    file_num = 1
+    crawled_urls_set = set()
+    for i, url in enumerate(url_list):
+        if i > 100:
+            break
+        if url in crawled_urls_set:
+            print('already crawled url ', url)
+            continue
+        else:
+            crawled_urls_set.add(url)
+        print('get {0} url {1}'.format(i, url))
+        filename = path + os.sep + str(file_num) + ".jpg"
+        time.sleep(1)
+        try:
+            content = requests.get(url).content
+        except Exception as e:
+            print('error occured ', str(e))
+            continue
+        with open(filename, 'wb') as f:
+            f.write(content)
+        file_num += 1
+#        if os.path.getsize(filename) < 1024*10: #如果文件小于10K
+#            print('Note: less than 10K, i is', i)
+#            os.remove(filename)
+#        else:
+                
 
 
+
+def get_pic_url_list(start_url):
+    driver = webdriver.Firefox()
+    driver.get(start_url)
+    
+    count = 0
+    while count<=1:
+        try: 
+            more_answer = driver.find_element_by_css_selector("Button.QuestionMainAction")
+            more_answer.click()
+        except:
+            print('get an exception count is ', count)    
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);");
+        html_content = driver.page_source
+        pattern1 = re.compile(r'"([^"]+\.jpg)"')  #查找所有图片
+        #pattern1 = re.compile(r'"([^"]+\.png)"')
+        find_list = re.findall(pattern1, html_content)
+        print('count is ', count, 'len of find_list is ', len(find_list))
+        count += 1
+        
+    return find_list
+
+
+if __name__=='__main__':
+    start_url = 'https://www.zhihu.com/question/50734809'
+    headers = {
+         'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko)'
+         ' Chrome/32.0.1700.76 Safari/537.36'
+         }
+         
+    url_list = get_pic_url_list(start_url)    
+    print('len of url_list is ', len(url_list))
+    store_file(url_list, './zhihu_pic/', headers)
+    
+#    pic_url = 'https://pic3.zhimg.com/v2-ba523260fe45bb5e43a3e129dd83dd4a_r.jpg'
+#    file_name = './zhihu_pic/1.jpg'
+#    try:
+#        content = requests.get(pic_url).content
+#    except Exception as e:
+#        print('error occured ', str(e))
+#    else:
+#        with open(file_name, 'wb') as f:
+#            f.write(content)
 
 #for url in find_list:
 #    print('url is ', url)
@@ -96,7 +159,7 @@ while count<=50:
 #    return url_list
 #
 #path = os.getcwd()
-#path = os.path.join(path,'知乎GIF')
+#path = os.path.join(path,'zhihu_pic')
 #if not os.path.exists(path):
 #    os.mkdir(path)                 #创建文件夹
 #
