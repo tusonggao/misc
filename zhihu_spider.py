@@ -14,7 +14,7 @@ import os
 import sip
 import PyQt4
 import spynner
-from setuptools import setup
+from collections import OrderedDict
 import requests
 
 #browser = spynner.Browser()
@@ -34,8 +34,10 @@ def make_dir(path_dir):
 def store_file(url_list, path, headers):
     file_num = 1
     crawled_urls_set = set()
+    file_url_map = OrderedDict()
+    
     for i, url in enumerate(url_list):
-        if i > 100:
+        if i > 20:
             break
         if url in crawled_urls_set:
             print('already crawled url ', url)
@@ -52,15 +54,12 @@ def store_file(url_list, path, headers):
             continue
         with open(filename, 'wb') as f:
             f.write(content)
-        file_num += 1
-#        if os.path.getsize(filename) < 1024*10: #如果文件小于10K
-#            print('Note: less than 10K, i is', i)
-#            os.remove(filename)
-#        else:
+            file_url_map[filename] = url
+        file_num += 1        
+        
+    with open('file_url_map.txt', 'w') as f:
+        f.write(str(file_url_map))
                 
-
-
-
 def get_pic_url_list(start_url):
     driver = webdriver.Firefox()
     driver.get(start_url)
@@ -74,7 +73,7 @@ def get_pic_url_list(start_url):
             print('get an exception count is ', count)    
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);");
         html_content = driver.page_source
-        pattern1 = re.compile(r'"([^"]+\.jpg)"')  #查找所有图片
+        pattern1 = re.compile(r'data-original="([^"]+\.jpg)"')  #查找所有图片
         #pattern1 = re.compile(r'"([^"]+\.png)"')
         find_list = re.findall(pattern1, html_content)
         print('count is ', count, 'len of find_list is ', len(find_list))
@@ -93,6 +92,10 @@ if __name__=='__main__':
     url_list = get_pic_url_list(start_url)    
     print('len of url_list is ', len(url_list))
     store_file(url_list, './zhihu_pic/', headers)
+    
+#    file_map = {'1.jpg': 'http://baidu.com', '2.jpg': 'http://google.com'}
+#    with open('file_url.txt', 'w') as f:
+#        f.write(str(file_map))
     
 #    pic_url = 'https://pic3.zhimg.com/v2-ba523260fe45bb5e43a3e129dd83dd4a_r.jpg'
 #    file_name = './zhihu_pic/1.jpg'
