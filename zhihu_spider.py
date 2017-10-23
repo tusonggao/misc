@@ -37,25 +37,25 @@ def store_file(url_list, path, headers):
     file_url_map = OrderedDict()
     
     for i, url in enumerate(url_list):
-        if i > 20:
+        if i > 2000:
             break
         if url in crawled_urls_set:
             print('already crawled url ', url)
             continue
         else:
             crawled_urls_set.add(url)
-        print('get {0} url {1}'.format(i, url))
+        print('get i: {0} file_num: {2} url {1}'.format(i, url, file_num))
         filename = path + os.sep + str(file_num) + ".jpg"
         time.sleep(1)
         try:
-            content = requests.get(url).content
+            content = requests.get(url, timeout=12).content
         except Exception as e:
             print('error occured ', str(e))
-            continue
-        with open(filename, 'wb') as f:
-            f.write(content)
-            file_url_map[filename] = url
-        file_num += 1        
+        else:
+            with open(filename, 'wb') as f:
+                f.write(content)
+                file_url_map[filename] = url
+            file_num += 1        
         
     with open('file_url_map.txt', 'w') as f:
         f.write(str(file_url_map))
@@ -65,7 +65,7 @@ def get_pic_url_list(start_url):
     driver.get(start_url)
     
     count = 0
-    while count<=1:
+    while count<=6:
         try: 
             more_answer = driver.find_element_by_css_selector("Button.QuestionMainAction")
             more_answer.click()
