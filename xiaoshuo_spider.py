@@ -20,27 +20,26 @@ headers = {
 def get_title_url_map(start_url):
     global headers
     html = requests.get(start_url, headers=headers, timeout=45).text
-    soup = BeautifulSoup(html)
-    book_detail = soup.find_all(id='book_detail')[1]
+    soup = BeautifulSoup(html, 'lxml')
+    link_list = soup.select('#book_detail > ol > li > a')
     title_url_map = OrderedDict()
-    li_list = book_detail.find('ol').find_all('li')
     
-    for li in li_list:
-        title = li.a.get_text().decode('utf-8')
+    for link in link_list:
+        title = link.text
         print('title is ', title)
-        title_url_map[title] = li.a['href']
+        title_url_map[title] = link['href']
     
     return title_url_map
 
 def get_content(xiaoshuo_url):
     global headers
     try:
-        html = requests.get(xiaoshuo_url, headers=headers, timeout=45).content
-        soup = BeautifulSoup(html)
-        content = soup.find(id='content')
+        html = requests.get(xiaoshuo_url, headers=headers, timeout=45).text
+        soup = BeautifulSoup(html, 'lxml')
+        content_list = soup.select('p')
         text = ''
-        for p in content.find_all('p'):
-            text += p.text + '\n\n'
+        for content in content_list:
+            text += content.text + '\n\n'
     except Exception as e:
         print('exception: ', str(e))
         return None
@@ -49,19 +48,23 @@ def get_content(xiaoshuo_url):
 
 if __name__=='__main__':
     start_url = 'http://www.136book.com/huaqiangu/'  # 花千骨 小说起始页
-    start_url = 'http://www.136book.com/fanyiguan-1/'
-    title_url_map = get_title_url_map(start_url)
+#    start_url = 'http://www.136book.com/fanyiguan-1/'
+#    title_url_map = get_title_url_map(start_url)
     
-    for title, url in title_url_map.iteritems():
-        file_name = './xiaoshuo/' + title + '.txt'
-        content = get_content(url)
-        if content is None:
-            continue
-        with open(file_name, 'w') as f:
-            f.write(content)
-        print('title is ', title) #.decode('utf-8')
-        
-    print('end of operation')
+#    print('title_url_map is ', title_url_map)
+    
+    print('content is ', get_content('http://www.136book.com/huaqiangu/ebxeet/'))
+    
+#    for title, url in title_url_map.iteritems():
+#        file_name = './xiaoshuo/' + title + '.txt'
+#        content = get_content(url)
+#        if content is None:
+#            continue
+#        with open(file_name, 'w') as f:
+#            f.write(content)
+#        print('title is ', title) #.decode('utf-8')
+#        
+#    print('end of operation')
 
     
 
