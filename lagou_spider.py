@@ -92,40 +92,40 @@ if __name__=='__main__':
     start_url2 = 'https://www.lagou.com/jobs/list_%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98?city=%E5%85%A8%E5%9B%BD' #数据挖掘
     
        
-    headers = {
-        'Cookie':
-        'user_trace_token=20170912201213-09228d89-2962-45d8-a915-5005559ee5fb; LGUID=20170912201214-9d07ff59-97b3-11e7-9168-5254005c3644; X_HTTP_TOKEN=f5e95edcbf2a1be96a7fd41c54770f6e; witkey_login_authToken="Es4VFc9tCRfrXwegii/KXN0dXGhRzASqCgXlI76jcfS1RuQNCc4upBIMUZb7XXZWbqy3dFhBeVlO+7DhOHf3ffFhGZt5SpgGkkBmZ9M92HFPcg0yppb2cyfDjLJvH6L1mmOu5zxBk3EndkZF0210r9RLi99f7Es6cAqEugcqKmB4rucJXOpldXhUiavxhcCELWDotJ+bmNVwmAvQCptcy5e7czUcjiQC32Lco44BMYXrQ+AIOfEccJKHpj0vJ+ngq/27aqj1hWq8tEPFFjdnxMSfKgAnjbIEAX3F9CIW8BSiMHYmPBt7FDDY0CCVFICHr2dp5gQVGvhfbqg7VzvNsw=="; TG-TRACK-CODE=index_search; SEARCH_ID=f871fb519d1a400192aa0f26a8cd5d1e; index_location_city=%E5%85%A8%E5%9B%BD; JSESSIONID=ABAAABAABEEAAJAE6A679B15293A0C478219C6874A7E3C3; _putrc=EE0DDE02D8CF828E; login=true; unick=%E6%B6%82%E6%9D%BE%E9%AB%98; showExpriedIndex=1; showExpriedCompanyHome=1; showExpriedMyPublish=1; hasDeliver=0; _gid=GA1.2.412706642.1508718279; _ga=GA1.2.144406653.1505218340; Hm_lvt_4233e74dff0ae5bd0a3d81c6ccf756e6=1508031899,1508157502,1508755371,1508755385; Hm_lpvt_4233e74dff0ae5bd0a3d81c6ccf756e6=1508858901; LGRID=20171024232805-ee8eff0c-b8cf-11e7-9610-5254005c3644',
-        'User-Agent':
-        'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.76 Safari/537.36'
-    }
-    
-    headers = {
-        'origin':
-        'https://www.lagou.com',
-        'User-Agent':
-        'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.76 Safari/537.36'
-    }
-    
 #    headers = {
-#        'Accept':
-#        'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-#        'Accept-Encoding':
-#        'gzip, deflate, sdch, br',
-#        'Accept-Language':
-#        'zh-CN,zh;q=0.8',
-#        'Cache-Control':
-#        'max-age=0',
-#        'Connection':
-#        'keep-alive',
 #        'Cookie':
 #        'user_trace_token=20170912201213-09228d89-2962-45d8-a915-5005559ee5fb; LGUID=20170912201214-9d07ff59-97b3-11e7-9168-5254005c3644; X_HTTP_TOKEN=f5e95edcbf2a1be96a7fd41c54770f6e; witkey_login_authToken="Es4VFc9tCRfrXwegii/KXN0dXGhRzASqCgXlI76jcfS1RuQNCc4upBIMUZb7XXZWbqy3dFhBeVlO+7DhOHf3ffFhGZt5SpgGkkBmZ9M92HFPcg0yppb2cyfDjLJvH6L1mmOu5zxBk3EndkZF0210r9RLi99f7Es6cAqEugcqKmB4rucJXOpldXhUiavxhcCELWDotJ+bmNVwmAvQCptcy5e7czUcjiQC32Lco44BMYXrQ+AIOfEccJKHpj0vJ+ngq/27aqj1hWq8tEPFFjdnxMSfKgAnjbIEAX3F9CIW8BSiMHYmPBt7FDDY0CCVFICHr2dp5gQVGvhfbqg7VzvNsw=="; TG-TRACK-CODE=index_search; SEARCH_ID=f871fb519d1a400192aa0f26a8cd5d1e; index_location_city=%E5%85%A8%E5%9B%BD; JSESSIONID=ABAAABAABEEAAJAE6A679B15293A0C478219C6874A7E3C3; _putrc=EE0DDE02D8CF828E; login=true; unick=%E6%B6%82%E6%9D%BE%E9%AB%98; showExpriedIndex=1; showExpriedCompanyHome=1; showExpriedMyPublish=1; hasDeliver=0; _gid=GA1.2.412706642.1508718279; _ga=GA1.2.144406653.1505218340; Hm_lvt_4233e74dff0ae5bd0a3d81c6ccf756e6=1508031899,1508157502,1508755371,1508755385; Hm_lpvt_4233e74dff0ae5bd0a3d81c6ccf756e6=1508858901; LGRID=20171024232805-ee8eff0c-b8cf-11e7-9610-5254005c3644',
-#        'Host':
-#        'www.lagou.com',
-#        'Upgrade-Insecure-Requests':
-#        '1',
 #        'User-Agent':
-#        'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36'
+#        'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.76 Safari/537.36'
 #    }
+    
+#    headers = {
+#        'origin':
+#        'https://www.lagou.com',
+#        'User-Agent':
+#        'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.76 Safari/537.36'
+#    }
+    
+    headers = {
+        'Accept':
+        'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept-Encoding':
+        'gzip, deflate, sdch, br',
+        'Accept-Language':
+        'zh-CN,zh;q=0.8',
+        'Cache-Control':
+        'max-age=0',
+        'Connection':
+        'keep-alive',
+        'Cookie':
+        'user_trace_token=20170912201213-09228d89-2962-45d8-a915-5005559ee5fb; LGUID=20170912201214-9d07ff59-97b3-11e7-9168-5254005c3644; X_HTTP_TOKEN=f5e95edcbf2a1be96a7fd41c54770f6e; witkey_login_authToken="Es4VFc9tCRfrXwegii/KXN0dXGhRzASqCgXlI76jcfS1RuQNCc4upBIMUZb7XXZWbqy3dFhBeVlO+7DhOHf3ffFhGZt5SpgGkkBmZ9M92HFPcg0yppb2cyfDjLJvH6L1mmOu5zxBk3EndkZF0210r9RLi99f7Es6cAqEugcqKmB4rucJXOpldXhUiavxhcCELWDotJ+bmNVwmAvQCptcy5e7czUcjiQC32Lco44BMYXrQ+AIOfEccJKHpj0vJ+ngq/27aqj1hWq8tEPFFjdnxMSfKgAnjbIEAX3F9CIW8BSiMHYmPBt7FDDY0CCVFICHr2dp5gQVGvhfbqg7VzvNsw=="; TG-TRACK-CODE=index_search; SEARCH_ID=f871fb519d1a400192aa0f26a8cd5d1e; index_location_city=%E5%85%A8%E5%9B%BD; JSESSIONID=ABAAABAABEEAAJAE6A679B15293A0C478219C6874A7E3C3; _putrc=EE0DDE02D8CF828E; login=true; unick=%E6%B6%82%E6%9D%BE%E9%AB%98; showExpriedIndex=1; showExpriedCompanyHome=1; showExpriedMyPublish=1; hasDeliver=0; _gid=GA1.2.412706642.1508718279; _ga=GA1.2.144406653.1505218340; Hm_lvt_4233e74dff0ae5bd0a3d81c6ccf756e6=1508031899,1508157502,1508755371,1508755385; Hm_lpvt_4233e74dff0ae5bd0a3d81c6ccf756e6=1508858901; LGRID=20171024232805-ee8eff0c-b8cf-11e7-9610-5254005c3644',
+        'Host':
+        'www.lagou.com',
+        'Upgrade-Insecure-Requests':
+        '1',
+        'User-Agent':
+        'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36'
+    }
     
     start_url_list = [start_url1, start_url2]
 
