@@ -30,6 +30,7 @@ def get_page_pic(url_id):
     
         start_url = 'http://tu.duowan.com/gallery/' + str(url_id) + '.html'
         res = requests.get(start_url, headers=headers, timeout=30)
+        print('res.encoding is ', res.encoding)
         res.encoding = 'utf-8'
         soup = BeautifulSoup(res.text, 'lxml')
         title = soup.select('div#currentview > h1')[0].text
@@ -45,16 +46,8 @@ def get_page_pic(url_id):
         pattern = re.compile('"url":"(http:\\\\/\\\\/[^"]+\.(png|jpg))"')
         results = re.findall(pattern, res.text)
         link_list = [res[0].replace('\\/', '/') for res in results]
-        print('result is ', link_list)
-        print('result is ', len(link_list))
-        
-    #    headers = {
-    #        'Accept': 'text/javascript, text/html, application/xml, text/xml, */*',
-    #        'Transfer-Encoding': 'chunked',
-    #        'Host': 'tu.duowan.com',
-    #        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36',
-    #        'X-Requested-With': 'XMLHttpRequest'
-    #    }
+#        print('result is ', link_list)
+#        print('result is ', len(link_list))
         
         time.sleep(1)
         for i, link in enumerate(link_list):
@@ -65,7 +58,7 @@ def get_page_pic(url_id):
         print('an exception occurs: ', str(e)) 
         
     
-def get_duowan_url_id_list(number=100):
+def get_duowan_url_id_list(number=30):
     headers = {
         'Accept': 'application/json, text/javascript, */*; q=0.01',
         'Accept-Encoding': 'gzip, deflate',
@@ -80,22 +73,58 @@ def get_duowan_url_id_list(number=100):
     
     num = 30
     url_set = set()
+    title_set = set()
     while True:    
         start_url = 'http://tu.duowan.com/m/meinv?offset=' + str(num) + '&order=created&math=0.574756804666471'
         res = requests.get(start_url, headers=headers)
+        print('res.encoding is ', res.encoding)
         res.encoding = 'utf-8'
+#        res.encoding = 'ISO-8859-1'
         html = res.text
-        pattern = re.compile('href=\\\\"(http:\\\\/\\\\/tu\.duowan\.com\\\\/gallery\\\\/\d+\.html)')
-        results = re.findall(pattern, html)
-        link_list = [res.replace('\\/', '/') for res in results]
+#        soup = BeautifulSoup(html, 'lxml')
+#        results = soup.select('em > a')
+#        link_list = [res['href'].replace('\\/', '/')[2:-2] for res in results]
+#        title_list = [res.text for res in results]
+#        for title in title_list:
+#            print('title is ', title)
+#        url_set |= set(link_list)
+#        title_set |= set(title_list)
+# <em><a href=\"http:\/\/tu.duowan.com\/gallery\/134698.html\" target=\"_blank\">\u6027\u611f\u7684\u540c\u4eba\u963f\u72f8COS \u6839\u672c\u628a\u6301\u4e0d\u4f4f<\/a> 
+        
+        jjss = json.loads(html)
+        html = jjss['html']
+#        print('jjss.html is ', jjss['html'])
+        pattern1 = re.compile('<em><a href="(http://tu\.duowan\.com/gallery/\d+\.html)"')
+#        pattern1 = re.compile('<em><a href=\\\\"(http:\\\\/\\\\/tu\.duowan\.com\\\\/gallery\\\\/\d+\.html)\\\\"')
+        results1 = re.findall(pattern1, html)
+        print('results1 is ', results1)
+        
+        pattern2 = re.compile('<em><a href="http://tu\.duowan\.com/gallery/\d+\.html" target="_blank">(.*?)</a>')
+        results2 = re.findall(pattern2, html)
+        print('results2 is ', results2[:3])
+#        title_list = [res.replace('\\\\u', '\\u') for res in results2[:3]]
+        title_list = [res for res in results2[:3]]
+        print('title_list is ', title_list)
+        
+        link_list = [res.replace('\\/', '/') for res in results1]
         url_set |= set(link_list)
-        print('len of urlset 1 is ', len(url_set))
+        
+        
+#        pattern = re.compile('href=\\\\"(http:\\\\/\\\\/tu\.duowan\.com\\\\/gallery\\\\/\d+\.html)')
+#        results = re.findall(pattern, html)
+#        link_list = [res.replace('\\/', '/') for res in results]
+#        url_set |= set(link_list)
+#        print('len of urlset 1 is ', len(url_set))
         if len(url_set) >= number:
             break
+        break
         num += 30
     
+    
     url_id_list = [url.split('/')[-1].split('.')[0] for url in  url_set]
-    print('url_id_list is ', url_id_list)
+#    print('url_id_list is ', url_id_list)
+#    print('title_set is ', title_set)
+#    print('url_set is ', url_set)
     return url_id_list
 
 if __name__=='__main__':
@@ -117,13 +146,13 @@ if __name__=='__main__':
 #    start_url = 'http://tu.duowan.com/m/meinv?offset=300&order=created&math=0.574756804666471'
 #    start_url = 'http://tu.duowan.com/m/meinv?offset=300&order=created&math=0.3565021552359482'
 
-    html = 'www.baidu.com/aiaitu/art.html wwww.baidu.com/cef.html aaa' 
-    BookID = str(re.search('com/(.*?)\.html', html).group(1))    
-    print(BookID)
-    
-    pattern = re.compile('com/(.*?)\.html')
-    results = re.findall(pattern, html)
-    print(results)
+#    html = 'www.baidu.com/aiaitu/art.html wwww.baidu.com/cef.html aaa' 
+#    BookID = str(re.search('com/(.*?)\.html', html).group(1))    
+#    print(BookID)
+#    
+#    pattern = re.compile('com/(.*?)\.html')
+#    results = re.findall(pattern, html)
+#    print(results)
     
 #    start_url = 'http://tu.duowan.com/index.php?r=show/getByGallery/&gid=129003'
     
@@ -141,14 +170,14 @@ if __name__=='__main__':
     
 #    print('res.encoding is ', res.encoding)
     
-#    id_list = get_duowan_url_id_list()
-#    
+    id_list = get_duowan_url_id_list()
+    
 #    for i, pic_url_id in enumerate(id_list):
 #        print('i is ', i)
 #        get_page_pic(pic_url_id)
-#    
-#    end_t = time.time()
-#    print('get end of prog, cost time: ', (end_t - start_t))
+    
+    end_t = time.time()
+    print('get end of prog, cost time: ', (end_t - start_t))
         
     
 
