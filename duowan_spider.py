@@ -46,8 +46,6 @@ def get_page_pic(url_id):
         pattern = re.compile('"url":"(http:\\\\/\\\\/[^"]+\.(png|jpg))"')
         results = re.findall(pattern, res.text)
         link_list = [res[0].replace('\\/', '/') for res in results]
-#        print('result is ', link_list)
-#        print('result is ', len(link_list))
         
         time.sleep(1)
         for i, link in enumerate(link_list):
