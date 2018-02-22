@@ -42,7 +42,6 @@ headers = {
 #    'Cookie': 'user_trace_token=20170912201213-09228d89-2962-45d8-a915-5005559ee5fb; LGUID=20170912201214-9d07ff59-97b3-11e7-9168-5254005c3644; X_HTTP_TOKEN=f5e95edcbf2a1be96a7fd41c54770f6e; witkey_login_authToken="Es4VFc9tCRfrXwegii/KXN0dXGhRzASqCgXlI76jcfS1RuQNCc4upBIMUZb7XXZWbqy3dFhBeVlO+7DhOHf3ffFhGZt5SpgGkkBmZ9M92HFPcg0yppb2cyfDjLJvH6L1mmOu5zxBk3EndkZF0210r9RLi99f7Es6cAqEugcqKmB4rucJXOpldXhUiavxhcCELWDotJ+bmNVwmAvQCptcy5e7czUcjiQC32Lco44BMYXrQ+AIOfEccJKHpj0vJ+ngq/27aqj1hWq8tEPFFjdnxMSfKgAnjbIEAX3F9CIW8BSiMHYmPBt7FDDY0CCVFICHr2dp5gQVGvhfbqg7VzvNsw=="; JSESSIONID=ABAAABAABEEAAJAE6A679B15293A0C478219C6874A7E3C3; PRE_UTM=; PRE_HOST=; PRE_SITE=; PRE_LAND=https%3A%2F%2Fwww.lagou.com%2F; _putrc=EE0DDE02D8CF828E; login=true; unick=%E6%B6%82%E6%9D%BE%E9%AB%98; showExpriedIndex=1; showExpriedCompanyHome=1; showExpriedMyPublish=1; hasDeliver=0; TG-TRACK-CODE=search_code; SEARCH_ID=cdf610d2454d47efa4016905621733c3; index_location_city=%E5%85%A8%E5%9B%BD; _gid=GA1.2.412706642.1508718279; Hm_lvt_4233e74dff0ae5bd0a3d81c6ccf756e6=1508031899,1508157502,1508755371,1508755385; Hm_lpvt_4233e74dff0ae5bd0a3d81c6ccf756e6=1509022165; _ga=GA1.2.144406653.1505218340; LGSID=20171026203706-603d7fcc-ba4a-11e7-9626-5254005c3644; LGRID=20171026204908-0e70fa02-ba4c-11e7-a945-525400f775ce',
 #}
 
-
 def get_lagou_jobinfo_url(page_num, keyword, city_name):
     headers = {
         'Accept': 'text/javascript, text/html, application/xml, text/xml, */*',
